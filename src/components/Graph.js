@@ -1,57 +1,63 @@
 import React, { useEffect, useState } from "react";
-import { Doughnut, Bar, Radar } from "react-chartjs-2";
+import { Doughnut, Bar, Pie } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getGraphData } from "../actions/getGraphData";
+import Loading from "./Loading";
 
 const Graph = () => {
+  const graphData = useSelector(state => state.graphData);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getGraphData());
-  }, []);
+    if (!graphData.day) dispatch(getGraphData());
+  }, [dispatch, graphData.day]);
 
-  const graphData = useSelector(state => state);
-  const { day, month, year } = graphData.graphData;
+  const [period, setPeriod] = useState("day");
+  let periodData;
+  if (graphData.day) periodData = [...graphData[period]];
 
-  let [period, setPeriod] = useState();
-  if (!period && day) period = [...day];
   const [tag, setTag] = useState("Doughnut");
-  const Tags = { Doughnut, Bar, Radar };
-
+  const Tags = { Doughnut, Bar, Pie };
   let Tag = Tags[tag];
+
   return (
     <>
-      <aside>
-        <button onClick={() => setPeriod(day)}>day</button>
-        <button onClick={() => setPeriod(month)}>month</button>
-        <button onClick={() => setPeriod(year)}>year</button>
-      </aside>
-      <aside>
+      <div>
+        <button onClick={() => setPeriod("day")}>day</button>
+        <button onClick={() => setPeriod("month")}>month</button>
+        <button onClick={() => setPeriod("year")}>year</button>
+      </div>
+      <div>
         <button onClick={() => setTag("Doughnut")}>Doughnut</button>
         <button onClick={() => setTag("Bar")}>Bar</button>
-        <button onClick={() => setTag("Radar")}>Radar</button>
-      </aside>
-      <Tag
-        data={{
-          labels: ["Moscow", "St. Petersburg", "Kharkiv"],
-          datasets: [
-            {
-              label: "Metro passenger flow per day",
-              data: period,
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-                "rgba(255, 206, 86, 0.2)"
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)"
-              ],
-              borderWidth: 1
-            }
-          ]
-        }}
-      />
+        <button onClick={() => setTag("Pie")}>Pie</button>
+      </div>
+      {graphData.isLoading ? (
+        <Loading />
+      ) : (
+        <Tag
+          data={{
+            labels: ["Moscow", "St. Petersburg", "Kharkiv"],
+            datasets: [
+              {
+                label: "Metro passenger flow per day",
+                data: periodData,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)"
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)"
+                ],
+                borderWidth: 1
+              }
+            ]
+          }}
+        />
+      )}
     </>
   );
 };

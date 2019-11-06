@@ -8,13 +8,7 @@ const initialState = {
   year: null,
   month: null,
   day: null,
-  isLoading: false
-};
-
-let data = {
-  day: [40, 19, 8],
-  month: [402, 180, 180],
-  year: [5000, 615, 1500]
+  isLoading: true
 };
 
 export const graphData = (state = initialState, action) => {
@@ -23,10 +17,10 @@ export const graphData = (state = initialState, action) => {
       return { ...state, isLoading: true };
 
     case GET_GRAPH_DATA_SUCCESS:
-      return { ...state, isLoading: false, ...data };
+      return { ...state, isLoading: false, ...action.payload };
 
     case GET_GRAPH_DATA_ERROR:
-      return { ...state, customNews: action.payload, isLoading: false };
+      return { ...state, errorData: action.payload, isLoading: false };
 
     default:
       return state;
