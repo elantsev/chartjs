@@ -1,0 +1,17 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2rem;
+  color: #333;
+}
+.loading__header {
+}
+.loading__link {
+  color: #555;
+  transition: color 0.2s;
+}
+.loading__link:hover {
+  color: #000;
+}

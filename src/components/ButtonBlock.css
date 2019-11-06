@@ -1,0 +1,30 @@
+.button-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.button-block_header {
+  margin: 0;
+  padding: 0;
+  font-size: 1.4em;
+}
+
+.btn {
+  width: fit-content;
+  padding: 3px 10px;
+  margin: 10px;
+  outline: none;
+  background-color: #fee0e6;
+  font-size: 1.2rem;
+  border: 2px solid #fba0b4;
+  transition: 0.2s;
+}
+.btn:hover {
+  background-color: #fba0b4;
+}
+.btn_active {
+  background-color: #ffccd6;
+}

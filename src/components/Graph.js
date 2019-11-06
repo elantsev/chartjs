@@ -3,6 +3,7 @@ import { Doughnut, Bar, Pie } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getGraphData } from "../actions/getGraphData";
 import Loading from "./Loading";
+import ButtonBlock from "./ButtonBlock";
 
 const Graph = () => {
   const graphData = useSelector(state => state.graphData);
@@ -22,16 +23,12 @@ const Graph = () => {
 
   return (
     <>
-      <div>
-        <button onClick={() => setPeriod("day")}>day</button>
-        <button onClick={() => setPeriod("month")}>month</button>
-        <button onClick={() => setPeriod("year")}>year</button>
-      </div>
-      <div>
-        <button onClick={() => setTag("Doughnut")}>Doughnut</button>
-        <button onClick={() => setTag("Bar")}>Bar</button>
-        <button onClick={() => setTag("Pie")}>Pie</button>
-      </div>
+      <ButtonBlock
+        period={period}
+        setPeriod={setPeriod}
+        tag={tag}
+        setTag={setTag}
+      />
       {graphData.isLoading ? (
         <Loading />
       ) : (
