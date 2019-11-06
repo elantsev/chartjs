@@ -5,6 +5,7 @@ import "./Graph.css";
 import { getGraphData } from "../actions/getGraphData";
 import Loading from "./Loading";
 import ButtonBlock from "./ButtonBlock";
+import useLocalStorage from "../useLocalStorage";
 
 const Graph = () => {
   const graphData = useSelector(state => state.graphData);
@@ -14,11 +15,11 @@ const Graph = () => {
     if (!graphData.day) dispatch(getGraphData());
   }, [dispatch, graphData.day]);
 
-  const [period, setPeriod] = useState("day");
+  const [period, setPeriod] = useLocalStorage("period", "day");
   let periodData;
   if (graphData.day) periodData = [...graphData[period]];
 
-  const [tag, setTag] = useState("Doughnut");
+  const [tag, setTag] = useLocalStorage("tag", "Doughnut");
   const Tags = { Doughnut, Bar, Pie };
   let Tag = Tags[tag];
 
@@ -34,7 +35,7 @@ const Graph = () => {
         <Loading />
       ) : (
         <>
-          <h3 className="graph__header">Metro passenger flow per day:</h3>
+          <h3 className="graph__header">Metro passenger flow per day</h3>
           <Tag
             height={100}
             data={{
